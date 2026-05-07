@@ -1,0 +1,384 @@
+/* ============================================================
+   FERIAS CHILE — Layout
+   Grid principal · Sidebar · Mapa · Responsive
+   ============================================================ */
+
+/* ---- App Shell ---- */
+#app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--header-height) 1fr;
+  grid-template-areas:
+    "header  header"
+    "sidebar map";
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--color-bg-deep);
+}
+
+/* ---- Header ---- */
+.app-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-5);
+  background: var(--color-bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  z-index: var(--z-sidebar);
+  gap: var(--sp-4);
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.app-header__logo {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+}
+
+.app-header__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+
+.app-header__subtitle {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-weight: 400;
+  margin-left: var(--sp-1);
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* ---- Search (in header) ---- */
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 480px;
+}
+
+.search-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 var(--sp-4) 0 var(--sp-10);
+  background: var(--color-surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-input:focus {
+  background: var(--color-surface-2);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--sp-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: var(--sp-2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.search-clear:hover {
+  background: var(--color-surface-3);
+  color: var(--text-primary);
+}
+
+.search-container.has-value .search-clear {
+  display: flex;
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + var(--sp-2));
+  left: 0;
+  right: 0;
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: var(--z-dropdown);
+  display: none;
+}
+
+.search-results.is-open {
+  display: block;
+}
+
+.search-result-item {
+  padding: var(--sp-3) var(--sp-4);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.is-active {
+  background: var(--color-surface-3);
+}
+
+.search-result-item__name {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.search-result-item__meta {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.search-result-item mark {
+  background: var(--color-accent-glow);
+  color: var(--color-accent);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+
+/* ---- Sidebar ---- */
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-primary);
+  border-right: 1px solid var(--border-subtle);
+  overflow: hidden;
+  z-index: var(--z-sidebar);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.sidebar__section {
+  padding: var(--sp-5);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar__section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: var(--sp-3);
+}
+
+.sidebar__scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ---- Map Container ---- */
+.map-container {
+  grid-area: map;
+  position: relative;
+  overflow: hidden;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Map Overlays ---- */
+.map-overlay {
+  position: absolute;
+  z-index: var(--z-base);
+}
+
+.map-overlay--top-right {
+  top: var(--sp-4);
+  right: var(--sp-4);
+}
+
+.map-overlay--bottom-left {
+  bottom: var(--sp-8);
+  left: var(--sp-4);
+}
+
+.map-overlay--bottom-right {
+  bottom: var(--sp-8);
+  right: var(--sp-4);
+}
+
+/* Result count badge */
+.result-count {
+  position: absolute;
+  bottom: var(--sp-8);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  padding: var(--sp-2) var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-md);
+  z-index: var(--z-base);
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+}
+
+.result-count strong {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* ---- Stats Panel (right side, collapsible) ---- */
+.stats-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--stats-width);
+  height: 100%;
+  background: var(--color-bg-primary);
+  border-left: 1px solid var(--border-subtle);
+  z-index: var(--z-sidebar);
+  transform: translateX(100%);
+  transition: transform var(--duration-slow) var(--ease-out);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.stats-panel.is-open {
+  transform: translateX(0);
+}
+
+.stats-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-primary);
+  z-index: 2;
+}
+
+.stats-panel__content {
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 320px;
+    --stats-width: 320px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-areas:
+      "header"
+      "map";
+  }
+
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 380px;
+    transform: translateX(-100%);
+    transition: transform var(--duration-slow) var(--ease-out);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .stats-panel {
+    width: 100%;
+    top: var(--header-height);
+  }
+
+  .search-container {
+    max-width: none;
+  }
+
+  .app-header__subtitle {
+    display: none;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 var(--sp-3);
+  }
+
+  .app-header__title {
+    font-size: var(--text-base);
+  }
+}

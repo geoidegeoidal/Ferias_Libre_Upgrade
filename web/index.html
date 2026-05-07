@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferias Libres de Chile — Mapa Interactivo</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Mapa interactivo de las 1,764 ferias libres de Chile. Busca por región, comuna o día de la semana. Datos abiertos de ODEPA.">
+  <meta name="keywords" content="ferias libres, Chile, mapa, ODEPA, mercados, ferias, comunas">
+  <meta name="author" content="geoidegeoidal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://geoidegeoidal.github.io/ferias-chile/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ferias Libres de Chile — Mapa Interactivo">
+  <meta property="og:description" content="Explora las 1,764 ferias libres de Chile. Filtra por región, comuna y día. Datos abiertos de ODEPA.">
+  <meta property="og:url" content="https://geoidegeoidal.github.io/ferias-chile/">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:site_name" content="Ferias Chile">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ferias Libres de Chile — Mapa Interactivo">
+  <meta name="twitter:description" content="Explora las 1,764 ferias libres de Chile en un mapa interactivo.">
+
+  <!-- Security -->
+  <meta http-equiv="Content-Security-Policy" 
+    content="default-src 'self'; 
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; 
+    worker-src 'self' blob:;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+    font-src 'self' https://fonts.gstatic.com; 
+    img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://tiles.stadiamaps.com https://*.openfreemap.org; 
+    connect-src 'self' https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://tiles.stadiamaps.com https://*.openfreemap.org https://demotiles.maplibre.org;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://tiles.stadiamaps.com">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./css/design-system.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/animations.css">
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏪</text></svg>">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Ferias Libres de Chile",
+    "description": "Catálogo nacional de ferias libres con ubicación, horarios y días de operación. 1,764 ferias en 16 regiones.",
+    "url": "https://geoidegeoidal.github.io/ferias-chile/",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "creator": {
+      "@type": "Organization",
+      "name": "ODEPA - Oficina de Estudios y Políticas Agrarias"
+    },
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Chile"
+    },
+    "temporalCoverage": "2024"
+  }
+  </script>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Cargando ferias de Chile…</p>
+  </div>
+
+  <!-- App Shell -->
+  <div id="app">
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="app-header" role="banner">
+      <div class="app-header__brand">
+        <!-- Mobile sidebar toggle -->
+        <button class="btn--icon sidebar-toggle" id="sidebar-toggle" aria-label="Abrir filtros">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="app-header__logo" aria-hidden="true">🏪</div>
+        <div>
+          <h1 class="app-header__title">
+            Ferias Chile
+            <span class="app-header__subtitle">· Mapa Interactivo</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-container" id="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          class="search-input" 
+          id="search-input" 
+          placeholder="Buscar feria, comuna o dirección…" 
+          autocomplete="off"
+          aria-label="Buscar ferias"
+        >
+        <button class="search-clear" id="search-clear" aria-label="Limpiar búsqueda">✕</button>
+        <div class="search-results" id="search-results" role="listbox"></div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="app-header__actions">
+        <button class="btn--icon" id="btn-stats" aria-label="Estadísticas" title="Estadísticas">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="12" width="4" height="9" rx="1"></rect>
+            <rect x="10" y="7" width="4" height="14" rx="1"></rect>
+            <rect x="17" y="3" width="4" height="18" rx="1"></rect>
+          </svg>
+        </button>
+        <a class="btn--icon" href="https://github.com/geoidegeoidal/Ferias_Libre_Upgrade" target="_blank" rel="noopener" aria-label="GitHub" title="Código fuente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         SIDEBAR (Filters)
+         ============================================================ -->
+    <aside class="sidebar" id="sidebar" role="complementary" aria-label="Filtros">
+      <div class="sidebar__scroll">
+        <!-- Hero Stats -->
+        <div class="sidebar__section">
+          <div class="stat-grid stagger-children" id="hero-stats">
+            <div class="stat-card">
+              <div class="stat-card__value" id="stat-total">—</div>
+              <div class="stat-card__label">Ferias únicas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__value stat-card__value--warm" id="stat-open">—</div>
+              <div class="stat-card__label">Abiertas hoy</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__value stat-card__value--secondary" id="stat-regiones">—</div>
+              <div class="stat-card__label">Regiones</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__value" id="stat-comunas">—</div>
+              <div class="stat-card__label">Comunas</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter: Region -->
+        <div class="sidebar__section">
+          <div class="filter-group">
+            <label class="filter-group__label" for="filter-region">
+              Región
+              <span class="filter-group__count" id="region-count"></span>
+            </label>
+            <select class="filter-select" id="filter-region">
+              <option value="">Todas las regiones</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filter: Comuna -->
+        <div class="sidebar__section">
+          <div class="filter-group">
+            <label class="filter-group__label" for="filter-comuna">
+              Comuna
+              <span class="filter-group__count" id="comuna-count"></span>
+            </label>
+            <select class="filter-select" id="filter-comuna">
+              <option value="">Todas las comunas</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filter: Día -->
+        <div class="sidebar__section">
+          <div class="filter-group">
+            <span class="filter-group__label">Día de la semana</span>
+            <div class="day-filter" id="day-filter" role="group" aria-label="Filtrar por día">
+              <button class="day-pill" data-day="Lunes" aria-label="Lunes">Lu</button>
+              <button class="day-pill" data-day="Martes" aria-label="Martes">Ma</button>
+              <button class="day-pill" data-day="Miércoles" aria-label="Miércoles">Mi</button>
+              <button class="day-pill" data-day="Jueves" aria-label="Jueves">Ju</button>
+              <button class="day-pill" data-day="Viernes" aria-label="Viernes">Vi</button>
+              <button class="day-pill" data-day="Sábado" aria-label="Sábado">Sá</button>
+              <button class="day-pill" data-day="Domingo" aria-label="Domingo">Do</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clear filters -->
+        <div class="sidebar__section" style="border-bottom: none; padding-top: var(--sp-2);">
+          <button class="clear-filters" id="clear-filters" aria-label="Limpiar todos los filtros">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Limpiar filtros
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar backdrop -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- ============================================================
+         MAP
+         ============================================================ -->
+    <main class="map-container" role="main">
+      <div id="map" aria-label="Mapa de ferias libres de Chile"></div>
+
+      <!-- Map Controls -->
+      <div class="map-overlay map-overlay--top-right">
+        <div class="map-controls">
+          <button class="map-control-btn" id="btn-zoom-in" aria-label="Acercar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <button class="map-control-btn" id="btn-zoom-out" aria-label="Alejar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <button class="map-control-btn map-control-btn--geo" id="btn-geolocate" aria-label="Mi ubicación" title="📍 Ferias cerca de ti">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path>
+            </svg>
+          </button>
+          <button class="map-control-btn" id="btn-fit-chile" aria-label="Ver todo Chile" title="Ver todo Chile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Result count -->
+      <div class="result-count" id="result-count">
+        Mostrando <strong id="filtered-count">—</strong> de <strong id="total-count">—</strong> ferias
+      </div>
+
+      <!-- Stats Panel -->
+      <aside class="stats-panel" id="stats-panel" role="complementary" aria-label="Estadísticas">
+        <div class="stats-panel__header">
+          <h2 class="heading-section">Estadísticas</h2>
+          <button class="btn--icon" id="btn-close-stats" aria-label="Cerrar estadísticas">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="stats-panel__content" id="stats-content">
+          <!-- Stats charts will be rendered here by stats.js (Phase 3) -->
+          <div style="text-align: center; padding: var(--sp-8) 0; color: var(--text-tertiary);">
+            <p class="text-sm">Panel de estadísticas</p>
+            <p class="text-xs" style="margin-top: var(--sp-2);">Próximamente — Fase 3</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- App Script -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

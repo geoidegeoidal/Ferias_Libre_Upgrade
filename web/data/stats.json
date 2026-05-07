@@ -1,0 +1,260 @@
+{
+  "total_ferias": 1764,
+  "total_regiones": 16,
+  "total_comunas": 284,
+  "total_puestos": 212192,
+  "promedio_puestos": 130,
+  "horario_apertura_comun": "08:00",
+  "horario_cierre_comun": "15:00",
+  "regiones": [
+    {
+      "region": "Arica y Parinacota",
+      "total": 9
+    },
+    {
+      "region": "Antofagasta",
+      "total": 25
+    },
+    {
+      "region": "Atacama",
+      "total": 20
+    },
+    {
+      "region": "Coquimbo",
+      "total": 49
+    },
+    {
+      "region": "Maule",
+      "total": 60
+    },
+    {
+      "region": "Ñuble",
+      "total": 38
+    },
+    {
+      "region": "Los Lagos",
+      "total": 99
+    },
+    {
+      "region": "Aysen del General Carlos Ibanez del Campo",
+      "total": 14
+    },
+    {
+      "region": "Biobio",
+      "total": 112
+    },
+    {
+      "region": "La Araucania",
+      "total": 76
+    },
+    {
+      "region": "Libertador General Bernardo O'Higgins",
+      "total": 125
+    },
+    {
+      "region": "Los Rios",
+      "total": 55
+    },
+    {
+      "region": "Magallanes y de la Antartica Chilena",
+      "total": 4
+    },
+    {
+      "region": "Metropolitana de Santiago",
+      "total": 928
+    },
+    {
+      "region": "Tarapaca",
+      "total": 35
+    },
+    {
+      "region": "Valparaiso",
+      "total": 115
+    }
+  ],
+  "top_comunas": [
+    {
+      "comuna": "Puente Alto",
+      "total": 102
+    },
+    {
+      "comuna": "La Florida",
+      "total": 68
+    },
+    {
+      "comuna": "Maipu",
+      "total": 48
+    },
+    {
+      "comuna": "Quinta Normal",
+      "total": 32
+    },
+    {
+      "comuna": "Puerto Montt",
+      "total": 30
+    },
+    {
+      "comuna": "La Pintana",
+      "total": 30
+    },
+    {
+      "comuna": "Santiago",
+      "total": 30
+    },
+    {
+      "comuna": "El Bosque",
+      "total": 28
+    },
+    {
+      "comuna": "Quilicura",
+      "total": 28
+    },
+    {
+      "comuna": "La Granja",
+      "total": 26
+    },
+    {
+      "comuna": "Renca",
+      "total": 26
+    },
+    {
+      "comuna": "Rancagua",
+      "total": 25
+    },
+    {
+      "comuna": "Peñalolen",
+      "total": 24
+    },
+    {
+      "comuna": "Pudahuel",
+      "total": 24
+    },
+    {
+      "comuna": "Conchalí",
+      "total": 22
+    },
+    {
+      "comuna": "Estación Central",
+      "total": 22
+    },
+    {
+      "comuna": "Recoleta",
+      "total": 22
+    },
+    {
+      "comuna": "Alto Hospicio",
+      "total": 21
+    },
+    {
+      "comuna": "Buin",
+      "total": 20
+    },
+    {
+      "comuna": "Cerro Navia",
+      "total": 20
+    }
+  ],
+  "dias_distribucion": [
+    {
+      "dia": "Lunes",
+      "total": 134
+    },
+    {
+      "dia": "Martes",
+      "total": 452
+    },
+    {
+      "dia": "Miércoles",
+      "total": 473
+    },
+    {
+      "dia": "Jueves",
+      "total": 432
+    },
+    {
+      "dia": "Viernes",
+      "total": 500
+    },
+    {
+      "dia": "Sábado",
+      "total": 646
+    },
+    {
+      "dia": "Domingo",
+      "total": 541
+    }
+  ],
+  "heatmap": [
+    {
+      "region": "Arica y Parinacota",
+      "Lunes": 0,
+      "Martes": 1,
+      "Miércoles": 2,
+      "Jueves": 2,
+      "Viernes": 2,
+      "Sábado": 3,
+      "Domingo": 3
+    },
+    {
+      "region": "Antofagasta",
+      "Lunes": 3,
+      "Martes": 5,
+      "Miércoles": 5,
+      "Jueves": 4,
+      "Viernes": 4,
+      "Sábado": 8,
+      "Domingo": 11
+    },
+    {
+      "region": "Atacama",
+      "Lunes": 0,
+      "Martes": 3,
+      "Miércoles": 2,
+      "Jueves": 4,
+      "Viernes": 4,
+      "Sábado": 3,
+      "Domingo": 4
+    },
+    {
+      "region": "Coquimbo",
+      "Lunes": 7,
+      "Martes": 12,
+      "Miércoles": 8,
+      "Jueves": 12,
+      "Viernes": 12,
+      "Sábado": 15,
+      "Domingo": 16
+    },
+    {
+      "region": "Maule",
+      "Lunes": 7,
+      "Martes": 12,
+      "Miércoles": 13,
+      "Jueves": 12,
+      "Viernes": 16,
+      "Sábado": 29,
+      "Domingo": 32
+    },
+    {
+      "region": "Ñuble",
+      "Lunes": 6,
+      "Martes": 13,
+      "Miércoles": 7,
+      "Jueves": 6,
+      "Viernes": 11,
+      "Sábado": 15,
+      "Domingo": 7
+    },
+    {
+      "region": "Los Lagos",
+      "Lunes": 35,
+      "Martes": 39,
+      "Miércoles": 43,
+      "Jueves": 41,
+      "Viernes": 52,
+      "Sábado": 68,
+      "Domingo": 39
+    }
+  ],
+  "generado": "2026-05-07"
+}
