@@ -30,14 +30,15 @@ Transformamos los datos abiertos de ODEPA en una **aplicación web progresiva** 
 | **Estado en Tiempo Real** | Puntos verdes para ferias abiertas hoy, grises para cerradas. Glow visual para abiertas. |
 | **Clustering Inteligente** | Agrupamiento automático con colores por densidad (cyan → violeta). |
 | **Filtros Avanzados** | Por región, comuna, día de la semana, rango de puestos y búsqueda fuzzy. |
-| **Búsqueda Fuzzy** | Multi-word highlighting, tolerante a errores de tipeo y sin acentos. |
+| **Búsqueda Fuzzy + Geocoding** | Multi-word highlighting en ferias locales + búsqueda de cualquier dirección de Chile vía Nominatim (OpenStreetMap). |
 | **Dashboard de Estadísticas** | Heatmap semanal (Región × Día), ranking de comunas y treemap de regiones con D3.js. |
 | **Geolocalización** | Encuentra tu ubicación, muestra ferias cercanas y calcula distancia. |
 | **PWA + Offline** | Service Worker con cache de app shell, datos y tiles de mapa. Funciona sin conexión. |
 | **Diseño Responsive** | Sidebar adaptable, controles táctiles, optimizado para móvil y desktop. |
 | **SEO Completo** | Open Graph, Twitter Cards, JSON-LD, canonical tags, manifest.json. |
 | **Mapa Claro / Oscuro** | Toggle instantáneo entre CartoDB Positron (claro) y Dark Matter (oscuro). Persiste preferencia. |
-| **Tour Guiado** | Onboarding interactivo para nuevos usuarios. Destaca cada elemento con spotlight y tooltips. Se puede reiniciar desde el botón "?". |
+| **Tour Guiado** | Onboarding interactivo responsive para nuevos usuarios. Tooltips se reposicionan automáticamente si no caben en pantalla. Se reinicia desde "?". |
+| **Ferias Cercanas** | Al buscar una dirección, el popup muestra las 3 ferias más cercanas con distancia en metros/km (Haversine). Click para volar a cada feria. |
 
 ---
 
