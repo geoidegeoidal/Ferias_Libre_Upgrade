@@ -600,6 +600,17 @@
   animation: pulse-border 1.5s infinite;
 }
 
+/* Theme toggle active state (light mode) */
+.map-control-btn.is-light {
+  color: hsl(38, 90%, 60%);
+  border-color: hsla(38, 90%, 60%, 0.35);
+  background: hsla(38, 90%, 60%, 0.1);
+}
+
+.map-control-btn.is-light:hover {
+  background: hsla(38, 90%, 60%, 0.18);
+}
+
 
 /* ============================================================
    LOADING STATE

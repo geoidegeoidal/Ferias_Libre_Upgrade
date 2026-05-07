@@ -17,6 +17,9 @@ const _getFilteredGeoJSON = getFilteredGeoJSON;
 /** @type {maplibregl.Map | null} */
 let map = null;
 
+/** @type {boolean} */
+let isDark = true;
+
 /** @type {maplibregl.Popup | null} */
 let activePopup = null;
 
@@ -56,6 +59,7 @@ export function initMap(geojson) {
     addDataLayers(geojson);
     setupInteractions();
     setupControls();
+    restoreMapTheme();
 
     // Subscribe to filter changes
     onFilterChange((filtered) => {
@@ -78,7 +82,7 @@ export function getMap() { return map; }
 function buildDarkStyle() {
   return {
     version: 8,
-    name: 'Observatorio Dark',
+    name: 'Observatorio',
     sources: {
       'carto-dark': {
         type: 'raster',
@@ -91,12 +95,34 @@ function buildDarkStyle() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         maxzoom: 19,
       },
+      'carto-light': {
+        type: 'raster',
+        tiles: [
+          'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+          'https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+          'https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+        ],
+        tileSize: 256,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        maxzoom: 19,
+      },
     },
     layers: [
+      {
+        id: 'carto-light-layer',
+        type: 'raster',
+        source: 'carto-light',
+        layout: { visibility: 'none' },
+        paint: {
+          'raster-brightness-max': 1.0,
+          'raster-saturation': -0.1,
+        },
+      },
       {
         id: 'carto-dark-layer',
         type: 'raster',
         source: 'carto-dark',
+        layout: { visibility: 'visible' },
         paint: {
           'raster-brightness-max': 0.85,
           'raster-saturation': -0.3,
@@ -390,6 +416,14 @@ function setupControls() {
   document.getElementById('btn-geolocate')?.addEventListener('click', () => {
     geolocate();
   });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('btn-theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      toggleMapStyle();
+    });
+  }
 }
 
 /**
@@ -435,6 +469,46 @@ export function fitToFeatures(features) {
     maxZoom: 15,
     duration: 1200,
   });
+}
+
+/**
+ * Toggle between dark and light map basemap.
+ */
+export function toggleMapStyle() {
+  if (!map) return;
+  isDark = !isDark;
+
+  if (isDark) {
+    map.setLayoutProperty('carto-dark-layer', 'visibility', 'visible');
+    map.setLayoutProperty('carto-light-layer', 'visibility', 'none');
+  } else {
+    map.setLayoutProperty('carto-dark-layer', 'visibility', 'none');
+    map.setLayoutProperty('carto-light-layer', 'visibility', 'visible');
+  }
+
+  // Update button icon
+  const btn = document.getElementById('btn-theme-toggle');
+  if (btn) {
+    btn.classList.toggle('is-light', !isDark);
+    btn.setAttribute('aria-label', isDark ? 'Cambiar a mapa claro' : 'Cambiar a mapa oscuro');
+  }
+
+  // Persist preference
+  try {
+    localStorage.setItem('ferias-map-theme', isDark ? 'dark' : 'light');
+  } catch { /* silent */ }
+}
+
+/**
+ * Restore saved map theme preference.
+ */
+function restoreMapTheme() {
+  try {
+    const saved = localStorage.getItem('ferias-map-theme');
+    if (saved === 'light' && isDark) {
+      toggleMapStyle();
+    }
+  } catch { /* silent */ }
 }
 
 /**
